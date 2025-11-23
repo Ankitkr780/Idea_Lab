@@ -1,10 +1,15 @@
 import app from './src/app.js';
 import { PORT } from './src/config/env.js';
 import connectDB from './src/config/database.js';
+import ensureUploadDirExists from './src/utils/createUploadDir.js';
+
+// Create uploads directory if it doesn't exist
+ensureUploadDirExists();
 
 // Connect to MongoDB
 connectDB();
 // just calling database to connect
+
 // Start server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
