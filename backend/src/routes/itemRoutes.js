@@ -7,42 +7,40 @@ import {
   deleteItem,
   getMyItems
 } from '../controllers/itemController.js';
-import { protect, authorize } from '../middleware/authMiddleware.js';
+
+import { protect } from '../middleware/authMiddleware.js';
 import { upload } from '../middleware/uploadMiddleware.js';
 import { itemValidation } from '../utils/validators.js';
 
 const router = express.Router();
 
-// Public routes
+// ----- Public Routes -----
 router.get('/', getItems);
 router.get('/:id', getItem);
 
-// Protected routes - donors only
+// ----- Protected Routes -----
+
+// Create Item
 router.post(
   '/',
-  protect,  // ✅ Only authentication check
+  protect,
   upload.array('images', 5),
   itemValidation,
   createItem
 );
 
+// Update Item
 router.put(
   '/:id',
-  protect,  // ✅ Only authentication check
+  protect,
   upload.array('images', 5),
   updateItem
 );
 
-router.delete(
-  '/:id',
-  protect,  // ✅ Only authentication check
-  deleteItem
-);
+// Delete Item
+router.delete('/:id', protect, deleteItem);
 
-router.get(
-  '/my/items',
-  protect,  // ✅ Only authentication check
-  getMyItems
-);
+// 🔥 Route for logged-in user’s items (My Items page depends on this)
+router.get('/my/items', protect, getMyItems);
 
 export default router;
