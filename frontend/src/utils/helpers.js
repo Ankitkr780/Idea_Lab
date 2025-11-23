@@ -11,7 +11,9 @@ export const formatDateTime = (date) => {
 export const getImageUrl = (path) => {
   if (!path) return '/placeholder-image.png'
   if (path.startsWith('http')) return path
-  return `http://localhost:5000${path}`
+  // ✅ FIX: Remove leading slash if present, then prepend the full URL
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  return `http://localhost:5000${cleanPath}`
 }
 
 export const truncateText = (text, maxLength = 100) => {

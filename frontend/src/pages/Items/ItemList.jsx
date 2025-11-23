@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { itemService } from '../../services/itemService'
 import { requestService } from '../../services/requestService'
 import { CATEGORIES, CONDITIONS } from '../../utils/constants'
+import { getImageUrl } from '../../utils/helpers'  // ✅ ADD THIS IMPORT
 import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
 
@@ -126,11 +127,15 @@ const ItemList = () => {
 
             return (
               <div key={item._id} className="card">
+                {/* ✅ FIX: Use getImageUrl helper */}
                 {item.images?.length > 0 && (
                   <img
-                    src={item.images[0]}
+                    src={getImageUrl(item.images[0])}
                     alt={item.title}
-                    className="w-full h-32 object-cover rounded-lg mb-3"
+                    className="w-full h-48 object-cover rounded-lg mb-3"
+                    onError={(e) => {
+                      e.target.src = '/placeholder-image.png'
+                    }}
                   />
                 )}
 
